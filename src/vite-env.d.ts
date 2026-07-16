@@ -7,6 +7,7 @@ interface ImportMetaEnv {
   readonly VITE_PHONE_NUMBER?: string;
   readonly VITE_CONTACT_EMAIL?: string;
   readonly VITE_SINGLEFILE?: string;
+  readonly VITE_HASH_ROUTER?: string;
 }
 
 interface ImportMeta {

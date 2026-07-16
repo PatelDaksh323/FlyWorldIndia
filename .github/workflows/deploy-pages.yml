@@ -1,0 +1,68 @@
+name: Deploy preview to GitHub Pages
+
+# Builds the site and publishes it to GitHub Pages so there's a public,
+# open-anywhere preview URL: https://<owner>.github.io/FlyWorldIndia/
+#
+# This is a PREVIEW deploy (hash-based routing, repo sub-path). Production
+# deploys to the real domain via nginx + Cloudflare (see README / deploy/).
+
+on:
+  push:
+    branches:
+      - claude/flyworld-3d-rebuild-3awo0b
+  workflow_dispatch:
+
+# Least-privilege token scopes needed to publish Pages.
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# One deploy at a time; don't cancel an in-flight release.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
+
+      - name: Configure Pages (enables Pages if not already on)
+        id: pages
+        uses: actions/configure-pages@v5
+        with:
+          enablement: true
+
+      - name: Build (Pages sub-path + hash routing)
+        env:
+          # base_path from configure-pages already includes the repo sub-path.
+          VITE_BASE: ${{ steps.pages.outputs.base_path }}/
+          VITE_HASH_ROUTER: "true"
+        run: bun run build
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

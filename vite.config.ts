@@ -4,6 +4,9 @@ import path from "node:path";
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  // Base path is "/" in production (custom domain) but is set to the repo
+  // sub-path for GitHub Pages preview builds via VITE_BASE (e.g. /FlyWorldIndia/).
+  base: process.env.VITE_BASE || "/",
   plugins: [react()],
   resolve: {
     alias: {

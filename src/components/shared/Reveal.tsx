@@ -1,48 +1,47 @@
-import { useEffect, useRef, useState, type ReactNode } from "react";
-import { cn } from "@/lib/cn";
+import type { ReactNode } from "react";
+import { motion, useReducedMotion } from "framer-motion";
+
+type Tag = "div" | "section" | "li" | "article" | "span";
+
+const MOTION = {
+  div: motion.div,
+  section: motion.section,
+  li: motion.li,
+  article: motion.article,
+  span: motion.span,
+} as const;
 
 /**
- * Scroll-reveal using IntersectionObserver + CSS (no GSAP — lighter, and it
- * already works, per CLAUDE.md). Automatically inert under reduced-motion
- * because the animation utility is neutralised in index.css.
+ * Scroll reveal with premium easing. Enters once when it scrolls into view.
+ * Fully inert under reduced-motion (renders in final position immediately).
  */
 export default function Reveal({
   children,
   className,
   delay = 0,
-  as: Tag = "div",
+  y = 24,
+  as = "div",
 }: {
   children: ReactNode;
   className?: string;
   delay?: number;
-  as?: "div" | "section" | "li" | "article";
+  y?: number;
+  as?: Tag;
 }) {
-  const ref = useRef<HTMLDivElement>(null);
-  const [shown, setShown] = useState(false);
+  const reduce = useReducedMotion();
+  const Comp = MOTION[as];
 
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-    const io = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setShown(true);
-          io.disconnect();
-        }
-      },
-      { threshold: 0.15, rootMargin: "0px 0px -40px 0px" }
-    );
-    io.observe(el);
-    return () => io.disconnect();
-  }, []);
+  if (reduce) return <Comp className={className}>{children}</Comp>;
 
   return (
-    <Tag
-      ref={ref as never}
-      style={{ animationDelay: `${delay}ms` }}
-      className={cn(shown ? "animate-fade-up" : "opacity-0", className)}
+    <Comp
+      className={className}
+      initial={{ opacity: 0, y }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "0px 0px -12% 0px" }}
+      transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1], delay: delay / 1000 }}
     >
       {children}
-    </Tag>
+    </Comp>
   );
 }

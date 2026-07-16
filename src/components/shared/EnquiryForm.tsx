@@ -1,6 +1,6 @@
 import { useRef, useState, type FormEvent } from "react";
 import { MessageCircle, Loader2, CheckCircle2, AlertTriangle } from "lucide-react";
-import { supabase } from "@/lib/supabase";
+import { supabase, enquiryFnUrl, supabaseAnonKey } from "@/lib/supabase";
 import { whatsappLink } from "@/config/site";
 import { cn } from "@/lib/cn";
 
@@ -87,17 +87,54 @@ export default function EnquiryForm({
 
     setStatus("submitting");
 
-    try {
-      if (!supabase) throw new Error("Backend not configured");
+    const record = {
+      name,
+      mobile,
+      city,
+      service,
+      country: defaultCountry || null,
+      source_page: sourcePage,
+    };
 
-      const { error: dbError } = await supabase.from("enquiries").insert({
-        name,
-        mobile,
-        city,
-        service,
-        country: defaultCountry || null,
-        source_page: sourcePage,
-      });
+    // Primary path: the Edge Function (server-side rate limiting + validation),
+    // which runs on Supabase infra so form spikes never touch the origin.
+    try {
+      if (enquiryFnUrl && supabaseAnonKey) {
+        const res = await fetch(enquiryFnUrl, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            apikey: supabaseAnonKey,
+            Authorization: `Bearer ${supabaseAnonKey}`,
+          },
+          body: JSON.stringify({ ...record, company: "" }),
+        });
+
+        if (res.ok) {
+          lastSubmit = now;
+          setStatus("success");
+          form.reset();
+          return;
+        }
+
+        if (res.status === 422) {
+          const body = await res.json().catch(() => ({}));
+          setFieldErrors(body.errors ?? {});
+          setStatus("idle");
+          return;
+        }
+        if (res.status === 429) {
+          const body = await res.json().catch(() => ({}));
+          setStatus("error");
+          setError(body.error ?? "Too many enquiries just now. Please try again shortly.");
+          return;
+        }
+        // Other statuses fall through to the direct-insert fallback below.
+      }
+
+      // Fallback: direct insert (RLS lets the public INSERT only, never SELECT).
+      if (!supabase) throw new Error("Backend not configured");
+      const { error: dbError } = await supabase.from("enquiries").insert(record);
       if (dbError) throw dbError;
 
       lastSubmit = now;

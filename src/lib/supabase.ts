@@ -17,3 +17,7 @@ export const supabase: SupabaseClient | null =
   url && anonKey ? createClient(url, anonKey) : null;
 
 export const supabaseReady = Boolean(supabase);
+
+/** Endpoint for the submit-enquiry Edge Function (server-side rate limiting). */
+export const enquiryFnUrl = url ? `${url}/functions/v1/submit-enquiry` : null;
+export const supabaseAnonKey = anonKey ?? null;

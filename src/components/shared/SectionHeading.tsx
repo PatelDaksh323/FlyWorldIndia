@@ -23,7 +23,7 @@ export default function SectionHeading({
       )}
     >
       {eyebrow && <p className="eyebrow">{eyebrow}</p>}
-      <h2 className="mt-3 text-3xl font-semibold leading-tight sm:text-4xl">{title}</h2>
+      <h2 className="mt-4 text-headline font-semibold">{title}</h2>
       {subtitle && <p className="mt-4 text-base leading-relaxed text-muted">{subtitle}</p>}
     </div>
   );

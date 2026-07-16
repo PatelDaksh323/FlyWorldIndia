@@ -1,0 +1,90 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    color-scheme: dark;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  /* Respect users who ask for less motion (PRD G-8). */
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.001ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.001ms !important;
+    }
+  }
+
+  body {
+    @apply bg-night font-sans text-ink antialiased;
+    background-image: theme("backgroundImage.night-radial");
+    background-attachment: fixed;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    @apply font-display;
+    text-wrap: balance;
+  }
+
+  /* Visible focus states everywhere (PRD G-7 / WCAG). */
+  :focus-visible {
+    @apply outline-none ring-2 ring-gold ring-offset-2 ring-offset-night;
+  }
+
+  ::selection {
+    background: theme("colors.gold");
+    color: theme("colors.night");
+  }
+}
+
+@layer components {
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-full px-5 py-3 text-sm font-semibold transition-all duration-200 focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-night disabled:cursor-not-allowed disabled:opacity-60;
+  }
+  .btn-primary {
+    @apply btn bg-cta-gradient text-night shadow-glow hover:brightness-110 active:scale-[0.98];
+  }
+  .btn-ghost {
+    @apply btn border border-white/15 bg-white/5 text-ink hover:border-gold/60 hover:bg-white/10;
+  }
+  .btn-outline {
+    @apply btn border border-gold/50 text-gold hover:bg-gold/10;
+  }
+
+  .card {
+    @apply rounded-xl2 border border-white/10 bg-panel/70 p-6 shadow-card backdrop-blur-sm;
+  }
+
+  .chip {
+    @apply inline-flex items-center gap-1.5 rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-xs font-medium text-muted transition-colors hover:border-gold/50 hover:text-ink;
+  }
+
+  .input {
+    @apply w-full rounded-lg border border-white/15 bg-white/5 px-3.5 py-2.5 text-sm text-ink placeholder:text-muted/70 transition-colors focus:border-gold/60 focus:bg-white/10 focus:outline-none;
+  }
+
+  .eyebrow {
+    @apply text-xs font-semibold uppercase tracking-[0.2em] text-gold;
+  }
+
+  .section {
+    @apply py-16 sm:py-24;
+  }
+
+  .link-underline {
+    @apply relative after:absolute after:-bottom-0.5 after:left-0 after:h-px after:w-0 after:bg-gold after:transition-all after:duration-300 hover:after:w-full;
+  }
+}

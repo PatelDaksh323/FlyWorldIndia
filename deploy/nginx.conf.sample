@@ -1,0 +1,45 @@
+# Flyworld India — sample nginx config for serving the built SPA.
+# Copy to /etc/nginx/sites-available/flyworldindia and adapt paths/domain.
+# Cloudflare (free) should sit IN FRONT of this box (PRD §7.2).
+
+server {
+    listen 80;
+    server_name flyworldindia.com www.flyworldindia.com;
+    # certbot will add the 443 server block + redirect here.
+
+    root /var/www/flyworldindia/dist;
+    index index.html;
+
+    # gzip (Brotli too if the module is available).
+    gzip on;
+    gzip_comp_level 6;
+    gzip_types text/plain text/css application/javascript application/json
+               image/svg+xml application/xml font/woff2;
+    gzip_min_length 1024;
+
+    # Hashed assets are immutable — cache hard.
+    location /assets/ {
+        expires 1y;
+        add_header Cache-Control "public, immutable";
+        try_files $uri =404;
+    }
+
+    # Static SEO files.
+    location = /sitemap.xml { expires 1d; try_files $uri =404; }
+    location = /robots.txt  { expires 1d; try_files $uri =404; }
+
+    # 301 redirects from old WordPress URLs — see deploy/redirects.map.
+    # include /etc/nginx/flyworld-redirects.map;
+
+    # SPA fallback: every unknown path serves index.html so client routing works.
+    # NOTE: once prerendering is added, prefer serving the prerendered HTML per
+    # route instead of a single index.html (better SEO — see README).
+    location / {
+        try_files $uri $uri/ /index.html;
+    }
+
+    # Basic security headers (tune as needed).
+    add_header X-Content-Type-Options "nosniff" always;
+    add_header X-Frame-Options "SAMEORIGIN" always;
+    add_header Referrer-Policy "strict-origin-when-cross-origin" always;
+}

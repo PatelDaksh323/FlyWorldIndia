@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+
+# Legal pages are noindex via meta; keep them crawlable but low priority.
+Disallow: /404
+
+Sitemap: https://www.flyworldindia.com/sitemap.xml

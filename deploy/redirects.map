@@ -1,0 +1,19 @@
+# 301 redirect map: OLD flyworldindia.com URL  ->  NEW route
+#
+# ⚠ PRE-LAUNCH TASK (PRD §9 risk 2, CLAUDE.md risk 2):
+# The old WordPress site has ranked for years. Crawl it, list EVERY indexed URL,
+# and map it here BEFORE finalising routes. Changing URLs without 301s makes
+# Google treat every page as brand new and loses hard-earned organic traffic.
+#
+# Usage (nginx map form) — include this from the server block once populated:
+#   map $request_uri $redirect_to {
+#       /canada-pr-visa/            /pr-migration;
+#       /study-in-germany/          /study-abroad/germany;
+#       /canada-work-permit/        /europe-work-permit/germany;   # example
+#       # ... one line per old URL ...
+#   }
+#   if ($redirect_to) { return 301 $redirect_to; }
+#
+# Fill the real mappings below after crawling the current site:
+
+# /old-path/                        /new-path

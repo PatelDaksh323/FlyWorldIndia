@@ -1,0 +1,9 @@
+# Cloudflare Pages SPA fallback.
+# The site uses client-side routing (BrowserRouter), so every unknown path
+# must serve index.html with a 200 and let React Router handle it. Without
+# this, refreshing or opening a deep link (e.g. /study-abroad/germany) 404s.
+#
+# Real 301s from the old WordPress URLs go ABOVE this catch-all once the URL
+# map is built (see deploy/redirects.map). Order matters — first match wins.
+
+/*    /index.html   200

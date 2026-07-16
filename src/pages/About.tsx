@@ -96,7 +96,7 @@ export default function About() {
           {values.map((v, i) => (
             <Reveal key={v.title} delay={i * 70}>
               <div className="card flex gap-4">
-                <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-cta-gradient text-night">
+                <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-gold text-night">
                   <v.icon className="h-5 w-5" />
                 </span>
                 <div>

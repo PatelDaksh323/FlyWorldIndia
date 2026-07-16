@@ -80,7 +80,7 @@ export const COUNTRIES: CountryData[] = [
     flag: "🇩🇪",
     headline: "Study in Germany from India",
     subhead:
-      "World-class public universities with low or no tuition fees, strong engineering and tech programmes, and an 18-month post-study job search route.",
+      "Publicly funded universities with low or no tuition fees, strong engineering and tech programmes, and an 18-month post-study job search route.",
     quickFacts: [
       { label: "Tuition (public)", value: `Low / no tuition ${VERIFY}` },
       { label: "Intakes", value: "Winter (Oct) & Summer (Apr)" },
@@ -521,7 +521,7 @@ export const COUNTRIES: CountryData[] = [
         body: "Public institutions charge relatively low tuition, and many English-taught programmes are now available.",
       },
       {
-        title: "World-class business & engineering schools",
+        title: "Highly ranked business & engineering schools",
         body: "France is home to globally ranked Grandes Écoles and business schools.",
       },
       {
@@ -655,7 +655,7 @@ export const COUNTRIES: CountryData[] = [
         body: "Poland's economy has ongoing demand across manufacturing, logistics and construction sectors.",
       },
       {
-        title: "Gateway to the EU",
+        title: "Access across the EU",
         body: "As a Schengen member, Poland offers access to travel across much of Europe.",
       },
       {

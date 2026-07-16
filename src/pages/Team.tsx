@@ -63,7 +63,7 @@ export default function Team() {
           {team.map((m, i) => (
             <Reveal key={i} delay={i * 70}>
               <div className="card h-full text-center">
-                <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-cta-gradient font-display text-2xl font-semibold text-night">
+                <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-gold font-display text-2xl font-semibold text-night">
                   {m.initials}
                 </div>
                 <h3 className="mt-4 text-lg font-semibold">{m.name}</h3>

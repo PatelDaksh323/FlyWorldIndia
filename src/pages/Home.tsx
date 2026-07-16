@@ -1,12 +1,8 @@
 import { Link } from "react-router-dom";
-import { ArrowRight, ArrowUpRight, Phone, MessageCircle, ShieldCheck, Quote, Sparkles } from "lucide-react";
+import { ArrowRight, ArrowUpRight } from "lucide-react";
 import Seo from "@/components/shared/Seo";
 import Reveal from "@/components/shared/Reveal";
-import SectionHeading from "@/components/shared/SectionHeading";
-import StatCounter from "@/components/shared/StatCounter";
 import EnquiryForm from "@/components/shared/EnquiryForm";
-import TiltCard from "@/components/shared/TiltCard";
-import MagneticButton from "@/components/shared/MagneticButton";
 import LazyGlobe from "@/components/globe/LazyGlobe";
 import { site, whatsappLink, telLink } from "@/config/site";
 import { stats, services, steps, testimonials, destinationChips } from "@/data/content";
@@ -17,181 +13,174 @@ export default function Home() {
     <>
       <Seo
         title="Flyworld India — Study Abroad, Work Permits & PR Consultants in Ahmedabad"
-        description="Trusted overseas education & immigration consultancy. Study Abroad, Europe Work Permits, Visitor Visas and PR — honest guidance, transparent costs, real results. Book a free consultation."
+        description="A serious overseas education & immigration consultancy. Study Abroad, Europe Work Permits, Visitor Visas and PR — honest guidance, transparent costs, real results. Book a free consultation."
         path="/"
       />
       <Hero />
-      <Marquee />
-      <Stats />
+      <StatsBand />
       <Services />
+      <Approach />
       <Destinations />
-      <Process />
-      <Testimonials />
-      <BlogPreview />
-      <FinalCta />
+      <PullQuote />
+      <Writing />
+      <ClosingCta />
     </>
+  );
+}
+
+/* Small editorial section label: gold index + tracked caption. Gold used once. */
+function SectionLabel({ index, children }: { index: string; children: React.ReactNode }) {
+  return (
+    <div className="flex items-center gap-3">
+      <span className="font-display text-sm text-gold">{index}</span>
+      <span className="h-px w-6 bg-gold/60" />
+      <span className="label">{children}</span>
+    </div>
   );
 }
 
 function Hero() {
   return (
     <section className="relative overflow-hidden">
-      <div className="container grid items-center gap-10 pb-10 pt-12 lg:grid-cols-[1.05fr_1fr] lg:gap-6 lg:pb-20 lg:pt-20">
-        <div className="animate-fade-up">
-          <span className="eyebrow">
-            <span className="relative flex h-2 w-2">
-              <span className="absolute inline-flex h-full w-full animate-pulse-ring rounded-full bg-gold" />
-              <span className="relative inline-flex h-2 w-2 rounded-full bg-gold" />
-            </span>
-            Global mobility partner · since 2013
-          </span>
-
-          <h1 className="mt-6 text-display-lg">
-            From India to the world,
-            <br />
-            <span className="text-sheen">guided with honesty.</span>
+      <div className="container grid grid-cols-1 items-center gap-12 pb-16 pt-16 md:pt-20 lg:grid-cols-12 lg:gap-8 lg:pb-28 lg:pt-28">
+        <div className="animate-fade-up lg:col-span-7">
+          <p className="label">Global mobility · Established 2013 · Ahmedabad</p>
+          <h1 className="mt-7 text-hero">
+            A steady hand for the
+            <br className="hidden sm:block" /> biggest decision of your life.
           </h1>
-
-          <p className="mt-6 max-w-xl text-lg leading-relaxed text-muted">
-            Study abroad, Europe work permits, visitor visas and PR — for a
-            decision worth ₹20–40 lakh and years of your life. No false promises,
-            no hidden costs. Just the truth, and a team that answers.
+          <p className="prose-narrow mt-7">
+            Study abroad, Europe work permits, visitor visas and permanent
+            residency — for families committing ₹20–40 lakh and years of their
+            lives. We give you the honest position, the real costs, and a team
+            that answers the phone.
           </p>
 
-          <div className="mt-9 flex flex-wrap items-center gap-3">
-            <MagneticButton to="/contact" className="btn-primary">
-              Book Free Consultation <ArrowRight className="h-4 w-4" />
-            </MagneticButton>
-            <MagneticButton
+          <div className="mt-10 flex flex-wrap items-center gap-x-7 gap-y-4">
+            <Link to="/contact" className="btn-primary">
+              Book a consultation <ArrowRight className="h-4 w-4" />
+            </Link>
+            <a
               href={whatsappLink("Hi Flyworld India, I'd like a free consultation.")}
               target="_blank"
               rel="noopener noreferrer"
-              className="btn-ghost"
+              className="btn-link"
             >
-              <MessageCircle className="h-4 w-4" /> WhatsApp us
-            </MagneticButton>
-            <a href={telLink()} className="hidden items-center gap-2 px-2 text-sm text-muted hover:text-ink sm:inline-flex">
-              <Phone className="h-4 w-4 text-gold" /> {site.phone}
+              Message on WhatsApp
+            </a>
+            <a href={telLink()} className="text-sm text-muted transition-colors hover:text-ink">
+              {site.phone}
             </a>
           </div>
-
-          {/* Inline proof strip */}
-          <dl className="mt-12 grid max-w-lg grid-cols-3 gap-6 border-t border-line pt-8">
-            {stats.slice(0, 3).map((s) => (
-              <div key={s.label}>
-                <dt className="tnum font-display text-2xl font-semibold text-ink sm:text-3xl">
-                  {s.prefix}
-                  {s.value.toLocaleString("en-IN")}
-                  {s.suffix}
-                </dt>
-                <dd className="mt-1 text-xs leading-snug text-faint">{s.label}</dd>
-              </div>
-            ))}
-          </dl>
         </div>
 
-        {/* The 3D moment */}
-        <div className="relative order-first lg:order-last">
-          <div className="relative mx-auto aspect-square w-full max-w-[580px]">
-            <div className="absolute inset-0 -z-10 rounded-full bg-gold/5 blur-3xl" />
+        {/* The single aspirational moment. One soft radial glow, nothing else. */}
+        <div className="relative lg:col-span-5">
+          <div
+            aria-hidden
+            className="pointer-events-none absolute left-1/2 top-1/2 -z-10 h-[120%] w-[120%] -translate-x-1/2 -translate-y-1/2"
+            style={{
+              background:
+                "radial-gradient(closest-side, rgba(232,176,75,0.14), transparent 72%)",
+            }}
+          />
+          <div className="mx-auto aspect-square w-full max-w-[440px] lg:max-w-none">
             <LazyGlobe />
           </div>
-          <div className="pointer-events-none absolute -bottom-6 left-1/2 hidden -translate-x-1/2 items-center gap-2 rounded-full border border-line bg-panel/70 px-4 py-2 text-xs text-muted backdrop-blur-md sm:flex">
-            <Sparkles className="h-3.5 w-3.5 text-gold" /> Live routes · India → 9 destinations
-          </div>
         </div>
       </div>
     </section>
   );
 }
 
-function Marquee() {
-  const items = [
-    "No visa is ever 'guaranteed' — we tell you the truth",
-    "Transparent, itemised costs",
-    "Real office, real people in Ahmedabad",
-    "We reply on WhatsApp, fast",
-    "Verified figures, no invented numbers",
-  ];
+/* Full-bleed thin band of numbers with hairline dividers. Not cards. */
+function StatsBand() {
   return (
-    <div className="relative overflow-hidden border-y border-line bg-surface/60 py-4">
-      <div className="flex items-center gap-10 whitespace-nowrap text-sm text-muted [mask-image:linear-gradient(90deg,transparent,black_8%,black_92%,transparent)]">
-        <div className="flex shrink-0 animate-[marquee_38s_linear_infinite] items-center gap-10">
-          {[...items, ...items].map((t, i) => (
-            <span key={i} className="inline-flex items-center gap-2.5">
-              <ShieldCheck className="h-4 w-4 shrink-0 text-gold" /> {t}
-            </span>
-          ))}
-        </div>
-      </div>
-      <style>{`@keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
-        @media (prefers-reduced-motion: reduce){.animate-\\[marquee_38s_linear_infinite\\]{animation:none}}`}</style>
-    </div>
-  );
-}
-
-function Stats() {
-  return (
-    <section className="section">
+    <section className="border-y border-white/10 bg-panel/40">
       <div className="container">
-        <Reveal>
-          <SectionHeading
-            align="center"
-            eyebrow="By the numbers"
-            title="Real results, honestly reported"
-            subtitle="The figures below are placeholders until verified against our records. We would rather show nothing than something false."
-          />
-        </Reveal>
-        <div className="mt-14 grid grid-cols-2 gap-px overflow-hidden rounded-3xl border border-line bg-line lg:grid-cols-4">
+        <div className="grid grid-cols-2 divide-white/10 py-12 md:grid-cols-4 md:divide-x">
           {stats.map((s, i) => (
-            <Reveal key={s.label} delay={i * 70}>
-              <div className="h-full bg-panel/50 p-8 backdrop-blur-sm">
-                <StatCounter {...s} />
+            <div key={s.label} className={i % 2 === 1 ? "pl-6 md:pl-8" : "pr-6 md:px-8"}>
+              <div className="tnum font-display text-4xl font-medium text-ink md:text-5xl">
+                {s.prefix}
+                {s.value.toLocaleString("en-IN")}
+                {s.suffix}
               </div>
-            </Reveal>
+              <div className="mt-2 text-sm leading-snug text-muted">{s.label}</div>
+            </div>
           ))}
         </div>
       </div>
+      <p className="container pb-8 text-xs text-muted/70">
+        Figures shown are placeholders pending verification against our records —
+        we would rather show nothing than a number we can't stand behind.
+      </p>
     </section>
   );
 }
 
+/* Services as an editorial index — numbered rows, hairline rules. Not a grid. */
 function Services() {
   return (
     <section className="section">
       <div className="container">
-        <Reveal>
-          <SectionHeading
-            eyebrow="What we do"
-            title="Four services, one promise — honest guidance"
-            subtitle="Whatever your goal, it starts with a free, no-pressure conversation about what's realistic for you."
-          />
-        </Reveal>
-        <div className="mt-14 grid gap-6 sm:grid-cols-2">
-          {services.map((s, i) => (
-            <Reveal key={s.title} delay={i * 80}>
-              <TiltCard>
-                <Link
-                  to={s.to}
-                  className="card group flex h-full flex-col transition-colors duration-300 hover:border-gold/40"
-                >
-                  <div className="flex items-start justify-between">
-                    <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-gold-sheen text-[#241803] shadow-glow">
-                      <s.icon className="h-6 w-6" />
-                    </div>
-                    <ArrowUpRight className="h-5 w-5 text-faint transition-all duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-gold" />
-                  </div>
-                  <h3 className="mt-6 text-xl font-semibold">{s.title}</h3>
-                  <p className="mt-2 flex-1 text-sm leading-relaxed text-muted">{s.blurb}</p>
-                  <ul className="mt-5 flex flex-wrap gap-2">
-                    {s.points.map((p) => (
-                      <li key={p} className="rounded-full border border-line bg-white/[0.03] px-2.5 py-1 text-xs text-muted">
-                        {p}
-                      </li>
-                    ))}
-                  </ul>
-                </Link>
-              </TiltCard>
+        <div className="grid gap-8 lg:grid-cols-12">
+          <div className="lg:col-span-5">
+            <SectionLabel index="01">What we do</SectionLabel>
+            <h2 className="mt-6 text-display">Four services. One standard of honesty.</h2>
+            <p className="prose-narrow mt-6">
+              Whatever the destination, the work begins the same way: a frank
+              conversation about what is realistic for your profile, your budget
+              and your timeline.
+            </p>
+          </div>
+
+          <div className="lg:col-span-7">
+            <div className="border-t border-white/10">
+              {services.map((s, i) => (
+                <Reveal key={s.title} delay={i * 60}>
+                  <Link
+                    to={s.to}
+                    className="group grid grid-cols-[auto_1fr_auto] items-start gap-5 border-b border-white/10 py-7 transition-colors hover:bg-white/[0.02]"
+                  >
+                    <span className="font-display text-sm text-gold">0{i + 1}</span>
+                    <span>
+                      <span className="block font-display text-xl text-ink transition-colors group-hover:text-gold">
+                        {s.title}
+                      </span>
+                      <span className="mt-1.5 block max-w-prose text-[15px] leading-relaxed text-muted">
+                        {s.blurb}
+                      </span>
+                    </span>
+                    <ArrowUpRight className="mt-1 h-5 w-5 text-muted transition-colors group-hover:text-gold" />
+                  </Link>
+                </Reveal>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* Approach — numbered steps in a single row, hairline tops. */
+function Approach() {
+  return (
+    <section className="section">
+      <div className="container">
+        <div className="max-w-prose">
+          <SectionLabel index="02">How we work</SectionLabel>
+          <h2 className="mt-6 text-display">No jargon. No runaround.</h2>
+        </div>
+        <div className="mt-14 grid gap-y-10 sm:grid-cols-2 lg:grid-cols-4 lg:gap-x-8">
+          {steps.map((s, i) => (
+            <Reveal key={s.title} delay={i * 60}>
+              <div className="border-t border-white/10 pt-5">
+                <span className="tnum font-display text-2xl text-muted">0{i + 1}</span>
+                <h3 className="mt-3 font-display text-lg text-ink">{s.title}</h3>
+                <p className="mt-2 text-[15px] leading-relaxed text-muted">{s.body}</p>
+              </div>
             </Reveal>
           ))}
         </div>
@@ -200,130 +189,102 @@ function Services() {
   );
 }
 
+/* Destinations — a two-column editorial list. Flags are the allowed exception. */
 function Destinations() {
   return (
     <section className="section">
-      <div className="container">
-        <Reveal>
-          <SectionHeading
-            eyebrow="Where you can go"
-            title="Popular study destinations"
-            subtitle="Tap a country for costs, courses, eligibility and the documents you'll need."
-          />
-        </Reveal>
-        <Reveal delay={100}>
-          <div className="mt-10 flex flex-wrap gap-3">
-            {destinationChips.map((c) => (
-              <Link key={c.to} to={c.to} className="chip text-sm">
-                {c.label}
-              </Link>
-            ))}
-          </div>
-        </Reveal>
-      </div>
-    </section>
-  );
-}
-
-function Process() {
-  return (
-    <section className="section">
-      <div className="container">
-        <Reveal>
-          <SectionHeading
-            eyebrow="How it works"
-            title="Four simple steps"
-            subtitle="No jargon, no runaround. Here's exactly what working with us looks like."
-          />
-        </Reveal>
-        <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-          {steps.map((s, i) => (
-            <Reveal key={s.title} delay={i * 80}>
-              <div className="card h-full">
-                <span className="tnum font-display text-4xl font-semibold text-transparent [-webkit-text-stroke:1px_rgba(233,184,95,0.55)]">
-                  0{i + 1}
-                </span>
-                <h3 className="mt-4 text-lg font-semibold">{s.title}</h3>
-                <p className="mt-2 text-sm leading-relaxed text-muted">{s.body}</p>
-              </div>
-            </Reveal>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-function Testimonials() {
-  return (
-    <section className="section">
-      <div className="container">
-        <Reveal>
-          <SectionHeading
-            eyebrow="In their words"
-            title="Trust, earned one family at a time"
-            subtitle="A few short words from people we've helped. Full stories — with permission — on our Success Stories page."
-          />
-        </Reveal>
-        <div className="mt-14 grid gap-6 lg:grid-cols-3">
-          {testimonials.map((t, i) => (
-            <Reveal key={i} delay={i * 80}>
-              <figure className="card flex h-full flex-col">
-                <Quote className="h-8 w-8 text-gold/40" />
-                <blockquote className="mt-4 flex-1 text-[0.95rem] leading-relaxed text-ink/90">
-                  {t.quote}
-                </blockquote>
-                <figcaption className="mt-6 border-t border-line pt-4">
-                  <span className="font-semibold text-ink">{t.name}</span>
-                  <span className="block text-xs text-faint">{t.detail}</span>
-                </figcaption>
-              </figure>
-            </Reveal>
-          ))}
-        </div>
-        <div className="mt-12 text-center">
-          <Link to="/success-stories" className="btn-outline">
-            Read success stories <ArrowRight className="h-4 w-4" />
+      <div className="container grid gap-10 lg:grid-cols-12">
+        <div className="lg:col-span-4">
+          <SectionLabel index="03">Where we send people</SectionLabel>
+          <h2 className="mt-6 text-display">Study destinations</h2>
+          <p className="prose-narrow mt-6">
+            Each country page carries the same detail: itemised costs,
+            eligibility, the documents you'll need, and the questions applicants
+            actually ask.
+          </p>
+          <Link to="/study-abroad" className="btn-link mt-6">
+            All destinations <ArrowRight className="h-4 w-4" />
           </Link>
         </div>
+        <div className="lg:col-span-8">
+          <ul className="grid grid-cols-1 border-t border-white/10 sm:grid-cols-2 sm:gap-x-10">
+            {destinationChips.map((c) => (
+              <li key={c.to} className="border-b border-white/10">
+                <Link
+                  to={c.to}
+                  className="group flex items-center justify-between py-4 text-ink"
+                >
+                  <span className="text-[17px]">{c.label}</span>
+                  <ArrowRight className="h-4 w-4 text-muted transition-all group-hover:translate-x-1 group-hover:text-gold" />
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
       </div>
     </section>
   );
 }
 
-function BlogPreview() {
-  const recent = posts.slice(0, 3);
+/* One large pull-quote on a subtle band. Replaces the row of testimonial cards. */
+function PullQuote() {
+  const t = testimonials[0];
+  return (
+    <section className="border-y border-white/10 bg-panel/40">
+      <div className="container py-20 md:py-28">
+        <div className="max-w-4xl">
+          <span className="font-display text-6xl leading-none text-gold/50">“</span>
+          <blockquote className="-mt-6 font-display text-2xl leading-snug text-ink md:text-display">
+            {t.quote}
+          </blockquote>
+          <div className="mt-8 flex items-center gap-4">
+            <span className="h-px w-10 bg-gold/60" />
+            <span className="text-sm text-muted">
+              {t.name} — {t.detail}
+            </span>
+          </div>
+          <p className="mt-10 max-w-prose text-xs text-muted/70">
+            Placeholder for layout. Real, signed-off testimonials only — full
+            stories on the{" "}
+            <Link to="/success-stories" className="text-muted underline hover:text-ink">
+              success stories
+            </Link>{" "}
+            page.
+          </p>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* Writing — an editorial list, not a card grid. */
+function Writing() {
+  const recent = posts.slice(0, 4);
   return (
     <section className="section">
       <div className="container">
-        <Reveal>
-          <div className="flex flex-wrap items-end justify-between gap-4">
-            <SectionHeading
-              eyebrow="From the blog"
-              title="Guidance worth reading"
-              subtitle="Honest, up-to-date guides — not a 100-post archive on the homepage."
-            />
-            <Link to="/blog" className="btn-ghost shrink-0">
-              All articles <ArrowRight className="h-4 w-4" />
-            </Link>
+        <div className="flex flex-wrap items-end justify-between gap-6">
+          <div className="max-w-prose">
+            <SectionLabel index="04">Writing</SectionLabel>
+            <h2 className="mt-6 text-display">Guidance worth the read</h2>
           </div>
-        </Reveal>
-        <div className="mt-14 grid gap-6 md:grid-cols-3">
+          <Link to="/blog" className="btn-link">
+            All articles <ArrowRight className="h-4 w-4" />
+          </Link>
+        </div>
+
+        <div className="mt-12 border-t border-white/10">
           {recent.map((p, i) => (
-            <Reveal key={p.slug} delay={i * 70}>
+            <Reveal key={p.slug} delay={i * 50}>
               <Link
                 to={`/blog/${p.slug}`}
-                className="card group flex h-full flex-col transition-colors duration-300 hover:border-gold/40"
+                className="group grid grid-cols-1 gap-2 border-b border-white/10 py-6 md:grid-cols-[10rem_1fr_auto] md:items-baseline md:gap-6"
               >
-                <span className="chip w-fit !text-gold">{p.category}</span>
-                <h3 className="mt-5 text-lg font-semibold leading-snug transition-colors group-hover:text-gold">
+                <span className="label text-muted/80">{p.category}</span>
+                <span className="font-display text-xl text-ink transition-colors group-hover:text-gold">
                   {p.title}
-                </h3>
-                <p className="mt-2 flex-1 text-sm leading-relaxed text-muted">{p.excerpt}</p>
-                <span className="mt-5 inline-flex items-center gap-1.5 text-xs text-faint">
-                  {p.readMins} min read
-                  <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-1" />
                 </span>
+                <span className="text-sm text-muted">{p.readMins} min</span>
               </Link>
             </Reveal>
           ))}
@@ -333,35 +294,50 @@ function BlogPreview() {
   );
 }
 
-function FinalCta() {
+/* Closing — asymmetric split: prose left, form right. */
+function ClosingCta() {
   return (
     <section className="section">
-      <div className="container">
-        <div className="relative overflow-hidden rounded-3xl border border-line bg-surface/70 shadow-lift">
-          <div className="pointer-events-none absolute inset-0 -z-10 bg-aurora" />
-          <div className="grid gap-8 p-8 lg:grid-cols-2 lg:gap-12 lg:p-14">
-            <div className="flex flex-col justify-center">
-              <SectionHeading
-                eyebrow="Ready when you are"
-                title="Let's talk about your plan"
-                subtitle="Tell us where you want to go. We'll tell you honestly what it takes — and whether we're the right people to help."
-              />
-              <div className="mt-8 flex flex-wrap gap-3">
-                <MagneticButton
+      <div className="container grid gap-12 lg:grid-cols-12 lg:gap-16">
+        <div className="lg:col-span-5">
+          <SectionLabel index="05">Speak to us</SectionLabel>
+          <h2 className="mt-6 text-display">
+            Tell us where you want to go.
+          </h2>
+          <p className="prose-narrow mt-6">
+            We'll tell you honestly what it takes — and whether we're the right
+            firm to get you there. No pressure, no false promises.
+          </p>
+          <dl className="mt-10 space-y-4 text-sm">
+            <div className="flex gap-4 border-t border-white/10 pt-4">
+              <dt className="w-24 shrink-0 text-muted">WhatsApp</dt>
+              <dd>
+                <a
                   href={whatsappLink("Hi Flyworld India, I'd like a free consultation.")}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="btn-ghost"
+                  className="btn-link"
                 >
-                  <MessageCircle className="h-4 w-4" /> WhatsApp
-                </MagneticButton>
-                <a href={telLink()} className="btn-ghost">
-                  <Phone className="h-4 w-4" /> {site.phone}
+                  Message us
                 </a>
-              </div>
+              </dd>
             </div>
-            <EnquiryForm sourcePage="/" />
-          </div>
+            <div className="flex gap-4 border-t border-white/10 pt-4">
+              <dt className="w-24 shrink-0 text-muted">Phone</dt>
+              <dd>
+                <a href={telLink()} className="text-ink hover:text-gold">
+                  {site.phone}
+                </a>
+              </dd>
+            </div>
+            <div className="flex gap-4 border-t border-white/10 pt-4">
+              <dt className="w-24 shrink-0 text-muted">Office</dt>
+              <dd className="text-ink">{site.address.line}</dd>
+            </div>
+          </dl>
+        </div>
+        <div className="lg:col-span-7">
+          <EnquiryForm sourcePage="/" />
         </div>
       </div>
     </section>

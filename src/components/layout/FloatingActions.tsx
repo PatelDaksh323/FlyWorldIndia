@@ -15,7 +15,7 @@ export default function FloatingActions() {
       <a
         href={telLink()}
         aria-label="Call Flyworld India"
-        className="group flex h-12 w-12 items-center justify-center rounded-full border border-white/15 bg-panel text-ink shadow-card transition-transform hover:scale-105 focus-visible:ring-2 focus-visible:ring-gold"
+        className="group flex h-12 w-12 items-center justify-center rounded-full border border-white/15 bg-panel text-ink transition-transform hover:scale-105 focus-visible:ring-2 focus-visible:ring-gold"
       >
         <Phone className="h-5 w-5 text-gold" />
       </a>
@@ -25,7 +25,7 @@ export default function FloatingActions() {
         target="_blank"
         rel="noopener noreferrer"
         aria-label="Chat with Flyworld India on WhatsApp"
-        className="flex h-14 items-center gap-2 rounded-full bg-[#25D366] pl-4 pr-5 font-semibold text-[#04310f] shadow-glow transition-transform hover:scale-105 focus-visible:ring-2 focus-visible:ring-gold"
+        className="flex h-14 items-center gap-2 rounded-full bg-[#25D366] pl-4 pr-5 font-semibold text-[#04310f] transition-transform hover:scale-105 focus-visible:ring-2 focus-visible:ring-gold"
       >
         <WhatsAppIcon className="h-6 w-6" />
         <span className="hidden text-sm sm:inline">WhatsApp</span>

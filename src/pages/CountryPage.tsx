@@ -264,7 +264,7 @@ function Section({
   return (
     <section id={id} className="scroll-mt-24">
       <div className="mb-5 flex items-center gap-2.5">
-        <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-cta-gradient text-night">
+        <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-gold text-night">
           <Icon className="h-5 w-5" />
         </span>
         <h2 className="text-2xl font-semibold">{title}</h2>

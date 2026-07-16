@@ -21,7 +21,7 @@ export default function GlobeFallback() {
               "radial-gradient(circle at 38% 32%, rgba(232,176,75,0.18), transparent 60%)",
           }}
         />
-        <div className="absolute left-1/2 top-1/2 h-2.5 w-2.5 -translate-x-1/2 -translate-y-1/2 rounded-full bg-gold shadow-glow" />
+        <div className="absolute left-1/2 top-1/2 h-2.5 w-2.5 -translate-x-1/2 -translate-y-1/2 rounded-full bg-gold" />
       </div>
       <span className="sr-only">
         Flyworld India connects {ORIGIN.name} to {DESTINATIONS.map((d) => d.name).join(", ")}.

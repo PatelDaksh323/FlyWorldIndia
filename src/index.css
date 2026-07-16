@@ -5,11 +5,6 @@
 @layer base {
   :root {
     color-scheme: dark;
-    --grain-opacity: 0.035;
-  }
-
-  * {
-    border-color: theme("colors.line");
   }
 
   html {
@@ -19,12 +14,8 @@
   }
 
   @media (prefers-reduced-motion: reduce) {
-    html {
-      scroll-behavior: auto;
-    }
-    *,
-    *::before,
-    *::after {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after {
       animation-duration: 0.001ms !important;
       animation-iteration-count: 1 !important;
       transition-duration: 0.001ms !important;
@@ -33,32 +24,18 @@
 
   body {
     @apply bg-night font-sans text-ink antialiased;
-    background-image: theme("backgroundImage.aurora");
-    background-attachment: fixed;
-    background-repeat: no-repeat;
-    font-feature-settings: "ss01", "cv01";
-    letter-spacing: -0.01em;
+    font-size: 16px;
+    line-height: 1.6;
   }
 
-  /* Subtle film grain over the whole page — kills the flat "digital" look. */
-  body::before {
-    content: "";
-    position: fixed;
-    inset: 0;
-    z-index: 1;
-    pointer-events: none;
-    opacity: var(--grain-opacity);
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 240 240' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-    mix-blend-mode: overlay;
-  }
-
+  /* Headlines are the only place Fraunces appears. Tight by default. */
   h1, h2, h3, h4 {
-    @apply font-display font-medium;
+    @apply font-display font-medium tracking-[-0.02em];
     text-wrap: balance;
   }
 
   :focus-visible {
-    @apply outline-none ring-2 ring-gold/80 ring-offset-2 ring-offset-night;
+    @apply outline-none ring-2 ring-gold/70 ring-offset-2 ring-offset-night;
   }
 
   ::selection {
@@ -66,90 +43,71 @@
     color: theme("colors.night");
   }
 
-  /* Refined scrollbar */
-  ::-webkit-scrollbar {
-    width: 11px;
-    height: 11px;
-  }
-  ::-webkit-scrollbar-track {
-    background: theme("colors.night");
-  }
+  ::-webkit-scrollbar { width: 10px; }
+  ::-webkit-scrollbar-track { background: theme("colors.night"); }
   ::-webkit-scrollbar-thumb {
-    background: theme("colors.elevated");
+    background: #1b284a;
     border: 3px solid theme("colors.night");
     border-radius: 999px;
-  }
-  ::-webkit-scrollbar-thumb:hover {
-    background: #26324e;
   }
 }
 
 @layer components {
-  /* --- Buttons: premium, restrained --- */
+  /* Buttons — one solid gold primary; everything else is quiet. */
   .btn {
-    @apply relative inline-flex select-none items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-semibold tracking-tight transition-all duration-300 ease-smooth focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-night disabled:cursor-not-allowed disabled:opacity-60;
+    @apply inline-flex select-none items-center justify-center gap-2 text-sm font-medium transition-colors duration-200 focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-night disabled:cursor-not-allowed disabled:opacity-60;
   }
   .btn-primary {
-    @apply btn bg-gold-sheen text-[#241803] shadow-glow hover:-translate-y-0.5 hover:brightness-[1.06] active:translate-y-0;
+    @apply btn rounded-full bg-gold px-6 py-3 text-night hover:bg-gold/90;
   }
   .btn-ghost {
-    @apply btn border border-line bg-white/[0.03] text-ink backdrop-blur-sm hover:-translate-y-0.5 hover:border-gold/50 hover:bg-white/[0.06];
+    @apply btn rounded-full border border-white/10 px-6 py-3 text-ink hover:border-white/25;
   }
-  .btn-outline {
-    @apply btn border border-gold/40 text-gold hover:-translate-y-0.5 hover:bg-gold/10;
+  /* Quiet text link with a gold underline that draws on hover. */
+  .btn-link {
+    @apply btn relative text-ink after:absolute after:-bottom-0.5 after:left-0 after:h-px after:w-0 after:bg-gold after:transition-all after:duration-300 hover:after:w-full;
   }
 
-  /* --- Surfaces --- */
+  /* Surfaces — a hairline border, no shadow, no blur. Pick one: border. */
   .card {
-    @apply relative rounded-xl2 border border-line bg-panel/60 p-6 shadow-card backdrop-blur-md;
-  }
-  .glass {
-    @apply border border-white/[0.08] bg-white/[0.04] backdrop-blur-xl;
+    @apply rounded-lg border border-white/10 bg-panel/40 p-6;
   }
 
-  .chip {
-    @apply inline-flex items-center gap-1.5 rounded-full border border-line bg-white/[0.04] px-3.5 py-1.5 text-xs font-medium tracking-tight text-muted backdrop-blur-sm transition-all duration-300 ease-smooth hover:-translate-y-0.5 hover:border-gold/50 hover:text-ink;
-  }
-
-  .input {
-    @apply w-full rounded-xl border border-line bg-white/[0.03] px-4 py-3 text-sm text-ink transition-colors duration-200 placeholder:text-faint focus:border-gold/60 focus:bg-white/[0.06] focus:outline-none;
-  }
-
+  /* Tiny editorial label. Muted by default; the gold lives elsewhere. */
+  .label,
   .eyebrow {
-    @apply inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-label text-gold;
+    @apply text-xs font-semibold uppercase tracking-label text-muted;
   }
 
-  .section {
-    @apply py-20 sm:py-28;
+  /* Quiet outline button (restrained gold). */
+  .btn-outline {
+    @apply btn rounded-full border border-gold/40 px-6 py-3 text-gold hover:bg-gold/10;
   }
 
+  /* Small inline tag — hairline, quiet. */
+  .chip {
+    @apply inline-flex items-center gap-1.5 rounded-full border border-white/10 px-3 py-1 text-xs font-medium text-muted transition-colors hover:border-white/25 hover:text-ink;
+  }
+
+  /* Text link with a gold underline on hover. */
   .link-underline {
     @apply relative after:absolute after:-bottom-0.5 after:left-0 after:h-px after:w-0 after:bg-gold after:transition-all after:duration-300 hover:after:w-full;
   }
 
-  /* Content sits above the grain layer */
-  .section, header, footer, main {
-    position: relative;
-    z-index: 2;
-  }
-
-  /* Hairline divider */
+  /* Hairline rule. */
   .rule {
-    @apply h-px w-full bg-hairline;
+    @apply h-px w-full bg-white/10;
   }
 
-  /* Gradient text for signature words */
-  .text-sheen {
-    @apply bg-gold-sheen bg-clip-text text-transparent;
+  .section {
+    @apply py-20 md:py-28 lg:py-32;
+  }
+
+  .prose-narrow {
+    @apply max-w-prose text-[17px] leading-relaxed text-muted;
   }
 }
 
 @layer utilities {
-  .tnum {
-    font-variant-numeric: tabular-nums;
-  }
-  .mask-fade-b {
-    -webkit-mask-image: linear-gradient(to bottom, black 70%, transparent);
-    mask-image: linear-gradient(to bottom, black 70%, transparent);
-  }
+  .tnum { font-variant-numeric: tabular-nums; }
 }

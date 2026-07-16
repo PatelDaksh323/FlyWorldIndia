@@ -14,9 +14,8 @@ import { ORIGIN, DESTINATIONS, type GeoPoint } from "./destinations";
  */
 
 const RADIUS = 1.6;
-const GOLD = new THREE.Color("#E9B85F");
-const AZURE = new THREE.Color("#6EA0FF");
-const CORAL = new THREE.Color("#FF8259");
+const GOLD = new THREE.Color("#E8B04B");
+const CORAL = new THREE.Color("#FF8A5B");
 
 function toVec(lat: number, lon: number, radius = RADIUS): THREE.Vector3 {
   const phi = (90 - lat) * (Math.PI / 180);
@@ -139,7 +138,7 @@ export default function Globe() {
 
     DESTINATIONS.forEach((dest: GeoPoint, i: number) => {
       const destVec = toVec(dest.lat, dest.lon);
-      addMarker(destVec, i % 2 ? AZURE : CORAL, 0.032, (i / DESTINATIONS.length) * Math.PI * 2);
+      addMarker(destVec, CORAL, 0.03, (i / DESTINATIONS.length) * Math.PI * 2);
 
       const curve = makeArc(originVec, destVec);
       const pts = curve.getPoints(64);
@@ -296,11 +295,11 @@ function buildStars(): THREE.Points {
   return new THREE.Points(
     geo,
     new THREE.PointsMaterial({
-      color: new THREE.Color("#AEB8D6"),
-      size: 0.05,
+      color: new THREE.Color("#93A0C0"),
+      size: 0.045,
       sizeAttenuation: true,
       transparent: true,
-      opacity: 0.7,
+      opacity: 0.55,
     })
   );
 }

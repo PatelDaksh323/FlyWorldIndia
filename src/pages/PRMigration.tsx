@@ -80,7 +80,7 @@ export default function PRMigration() {
           {steps.map((s, i) => (
             <Reveal key={s.title} delay={i * 80}>
               <div className="card h-full">
-                <span className="flex h-12 w-12 items-center justify-center rounded-xl bg-cta-gradient text-night">
+                <span className="flex h-12 w-12 items-center justify-center rounded-xl bg-gold text-night">
                   <s.icon className="h-6 w-6" />
                 </span>
                 <h3 className="mt-5 text-lg font-semibold">{s.title}</h3>

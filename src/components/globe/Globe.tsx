@@ -138,7 +138,7 @@ export default function Globe() {
 
     DESTINATIONS.forEach((dest: GeoPoint, i: number) => {
       const destVec = toVec(dest.lat, dest.lon);
-      addMarker(destVec, CORAL, 0.03, (i / DESTINATIONS.length) * Math.PI * 2);
+      addMarker(destVec, i % 2 ? CORAL : GOLD, 0.032, (i / DESTINATIONS.length) * Math.PI * 2);
 
       const curve = makeArc(originVec, destVec);
       const pts = curve.getPoints(64);

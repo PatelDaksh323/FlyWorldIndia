@@ -26,86 +26,96 @@
     @apply bg-night font-sans text-ink antialiased;
     font-size: 16px;
     line-height: 1.6;
+    background-image: theme("backgroundImage.aurora");
+    background-attachment: fixed;
+    background-repeat: no-repeat;
   }
 
-  /* Headlines are the only place Fraunces appears. Tight by default. */
+  /* Fine film grain — kills the flat digital look (skeuomorphic depth cue). */
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    opacity: 0.03;
+    mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 220 220' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
   h1, h2, h3, h4 {
     @apply font-display font-medium tracking-[-0.02em];
     text-wrap: balance;
   }
 
   :focus-visible {
-    @apply outline-none ring-2 ring-gold/70 ring-offset-2 ring-offset-night;
+    @apply outline-none ring-2 ring-gold/80 ring-offset-2 ring-offset-night;
   }
 
-  ::selection {
-    background: theme("colors.gold");
-    color: theme("colors.night");
-  }
+  ::selection { background: theme("colors.gold"); color: theme("colors.night"); }
 
-  ::-webkit-scrollbar { width: 10px; }
+  ::-webkit-scrollbar { width: 11px; }
   ::-webkit-scrollbar-track { background: theme("colors.night"); }
   ::-webkit-scrollbar-thumb {
-    background: #1b284a;
-    border: 3px solid theme("colors.night");
-    border-radius: 999px;
+    background: #1c2b52; border: 3px solid theme("colors.night"); border-radius: 999px;
   }
 }
 
 @layer components {
-  /* Buttons — one solid gold primary; everything else is quiet. */
+  /* Buttons */
   .btn {
-    @apply inline-flex min-h-[44px] cursor-pointer select-none items-center justify-center gap-2 text-sm font-medium transition-colors duration-200 focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-night disabled:cursor-not-allowed disabled:opacity-60;
+    @apply relative inline-flex min-h-[46px] cursor-pointer select-none items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-semibold tracking-tight transition-all duration-300 ease-expo focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-night disabled:cursor-not-allowed disabled:opacity-60;
   }
   .btn-primary {
-    @apply btn rounded-full bg-gold px-6 py-3 text-night hover:bg-gold/90;
+    @apply btn bg-gold-gradient text-[#241803] shadow-glow hover:-translate-y-0.5 hover:brightness-[1.05] active:translate-y-0;
   }
   .btn-ghost {
-    @apply btn rounded-full border border-white/10 px-6 py-3 text-ink hover:border-white/25;
+    @apply btn border border-white/10 bg-white/[0.04] text-ink backdrop-blur-sm hover:-translate-y-0.5 hover:border-gold/50 hover:bg-white/[0.07];
   }
-  /* Quiet text link with a gold underline that draws on hover. */
-  .btn-link {
-    @apply btn relative text-ink after:absolute after:-bottom-0.5 after:left-0 after:h-px after:w-0 after:bg-gold after:transition-all after:duration-300 hover:after:w-full;
-  }
-
-  /* Surfaces — a hairline border, no shadow, no blur. Pick one: border. */
-  .card {
-    @apply rounded-lg border border-white/10 bg-panel/40 p-6;
-  }
-
-  /* Tiny editorial label. Muted by default; the gold lives elsewhere. */
-  .label,
-  .eyebrow {
-    @apply text-xs font-semibold uppercase tracking-label text-muted;
-  }
-
-  /* Quiet outline button (restrained gold). */
   .btn-outline {
-    @apply btn rounded-full border border-gold/40 px-6 py-3 text-gold hover:bg-gold/10;
+    @apply btn border border-gold/45 text-gold hover:-translate-y-0.5 hover:bg-gold/10;
+  }
+  .btn-link {
+    @apply relative inline-flex cursor-pointer items-center gap-2 text-sm font-medium text-ink after:absolute after:-bottom-0.5 after:left-0 after:h-px after:w-0 after:bg-gold after:transition-all after:duration-300 hover:after:w-full;
   }
 
-  /* Small inline tag — hairline, quiet. */
+  /* Glass card — layered depth, hairline top light, glow-on-hover */
+  .card {
+    @apply relative rounded-xl2 border border-white/10 bg-panel/50 p-6 shadow-card backdrop-blur-md;
+  }
+  .card-glow {
+    @apply card transition-all duration-500 ease-expo hover:-translate-y-1 hover:border-gold/35 hover:shadow-glow-lg;
+  }
+
   .chip {
-    @apply inline-flex items-center gap-1.5 rounded-full border border-white/10 px-3 py-1 text-xs font-medium text-muted transition-colors hover:border-white/25 hover:text-ink;
+    @apply inline-flex items-center gap-1.5 rounded-full border border-white/10 bg-white/[0.05] px-3.5 py-1.5 text-xs font-medium text-muted backdrop-blur-sm transition-all duration-300 ease-expo hover:-translate-y-0.5 hover:border-gold/50 hover:text-ink;
   }
 
-  /* Text link with a gold underline on hover. */
-  .link-underline {
-    @apply relative after:absolute after:-bottom-0.5 after:left-0 after:h-px after:w-0 after:bg-gold after:transition-all after:duration-300 hover:after:w-full;
+  .input {
+    @apply w-full rounded-xl border border-white/10 bg-white/[0.04] px-4 py-3 text-sm text-ink transition-colors duration-200 placeholder:text-muted/70 focus:border-gold/60 focus:bg-white/[0.07] focus:outline-none;
   }
 
-  /* Hairline rule. */
-  .rule {
-    @apply h-px w-full bg-white/10;
+  .eyebrow, .label {
+    @apply inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-label text-gold;
   }
 
-  .section {
-    @apply py-20 md:py-28 lg:py-32;
+  .section { @apply py-20 md:py-28; }
+
+  .rule { @apply h-px w-full bg-gradient-to-r from-transparent via-white/15 to-transparent; }
+
+  .prose-narrow { @apply max-w-prose text-[17px] leading-relaxed text-muted; }
+
+  .text-sheen {
+    @apply bg-sheen-text bg-clip-text text-transparent;
   }
 
-  .prose-narrow {
-    @apply max-w-prose text-[17px] leading-relaxed text-muted;
+  /* Icon tile with gradient fill */
+  .icon-tile {
+    @apply flex h-12 w-12 items-center justify-center rounded-2xl bg-gold-gradient text-[#241803] shadow-glow;
   }
+
+  /* content above the grain layer */
+  header, main, footer, .section { position: relative; z-index: 2; }
 }
 
 @layer utilities {

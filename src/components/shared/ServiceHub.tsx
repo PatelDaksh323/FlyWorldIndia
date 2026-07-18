@@ -2,14 +2,12 @@ import { Link } from "react-router-dom";
 import { ArrowRight, MessageCircle } from "lucide-react";
 import Seo from "./Seo";
 import PageHero from "./PageHero";
-import Reveal from "./Reveal";
-import CountryCard from "./CountryCard";
 import EnquiryForm from "./EnquiryForm";
-import { countriesByService, type ServiceKey } from "@/data/countries";
+import { countriesByService, countryPath, displayValue, type ServiceKey } from "@/data/countries";
 import { breadcrumbJsonLd, type Crumb } from "./Breadcrumbs";
 import { site, whatsappLink } from "@/config/site";
 
-/** Generic hub: renders every country card for a service. One component, three pages. */
+/** Generic hub: an editorial index of destinations for a service. */
 export default function ServiceHub({
   service,
   eyebrow,
@@ -42,44 +40,71 @@ export default function ServiceHub({
       />
 
       <PageHero eyebrow={eyebrow} title={title} subtitle={subtitle} crumbs={crumbs}>
-        <div className="mt-7 flex flex-wrap gap-3">
+        <div className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-3">
           <Link to="/contact" className="btn-primary">
-            Book Free Consultation <ArrowRight className="h-4 w-4" />
+            Book a consultation <ArrowRight className="h-4 w-4" />
           </Link>
           <a
             href={whatsappLink(`Hi Flyworld India, I'd like to know about ${title}.`)}
             target="_blank"
             rel="noopener noreferrer"
-            className="btn-ghost"
+            className="btn-link"
           >
-            <MessageCircle className="h-4 w-4" /> WhatsApp us
+            WhatsApp us
           </a>
         </div>
       </PageHero>
 
-      <div className="container section">
-        {intro && (
-          <p className="mb-10 max-w-3xl text-base leading-relaxed text-muted">{intro}</p>
-        )}
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {countries.map((c, i) => (
-            <Reveal key={`${c.service}-${c.slug}`} delay={i * 60}>
-              <CountryCard country={c} />
-            </Reveal>
+      <section className="container section">
+        {intro && <p className="prose-narrow mb-12 max-w-2xl">{intro}</p>}
+
+        {/* Destination index — rows with hairline rules, not a card grid. */}
+        <div className="border-t border-white/10">
+          {countries.map((c) => (
+            <Link
+              key={`${c.service}-${c.slug}`}
+              to={countryPath(c)}
+              className="group grid grid-cols-1 gap-x-8 gap-y-3 border-b border-white/10 py-8 md:grid-cols-12 md:items-baseline"
+            >
+              <div className="flex items-center gap-3 md:col-span-3">
+                <span className="text-xl" aria-hidden="true">{c.flag}</span>
+                <span className="font-display text-xl text-ink transition-colors group-hover:text-gold">
+                  {c.name}
+                </span>
+              </div>
+              <p className="text-[15px] leading-relaxed text-muted md:col-span-6">{c.subhead}</p>
+              <div className="flex items-center justify-between md:col-span-3 md:justify-end md:gap-6">
+                <span className="text-sm text-muted">
+                  {c.quickFacts[0]?.label}:{" "}
+                  <span className="text-ink">{displayValue(c.quickFacts[0]?.value ?? "").text}</span>
+                </span>
+                <ArrowRight className="h-4 w-4 text-muted transition-all group-hover:translate-x-1 group-hover:text-gold" />
+              </div>
+            </Link>
           ))}
         </div>
-      </div>
+      </section>
 
       <section className="border-t border-white/10 bg-panel/40">
-        <div className="container grid gap-8 py-14 lg:grid-cols-2 lg:items-center">
-          <div>
-            <h2 className="text-3xl font-semibold">Not sure which is right for you?</h2>
-            <p className="mt-4 max-w-md text-muted">
-              Tell us your goal, budget and timeline. We'll give you an honest
-              view of your options — with no pressure to commit.
+        <div className="container grid gap-12 py-16 lg:grid-cols-12 lg:items-start lg:gap-16">
+          <div className="lg:col-span-5">
+            <h2 className="text-display">Not sure which fits?</h2>
+            <p className="prose-narrow mt-6">
+              Tell us your goal, budget and timeline. We'll give you an honest read
+              on your options — with no pressure to commit.
             </p>
+            <a
+              href={whatsappLink(`Hi Flyworld India, I'd like guidance on ${title}.`)}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn-link mt-6"
+            >
+              <MessageCircle className="h-4 w-4" /> Or message us on WhatsApp
+            </a>
           </div>
-          <EnquiryForm defaultService={title} sourcePage={path} />
+          <div className="lg:col-span-7">
+            <EnquiryForm defaultService={title} sourcePage={path} />
+          </div>
         </div>
       </section>
     </>

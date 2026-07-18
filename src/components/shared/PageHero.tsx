@@ -17,12 +17,12 @@ export default function PageHero({
 }) {
   return (
     <section className="border-b border-white/10">
-      <div className="container py-12 lg:py-16">
+      <div className="container pb-12 pt-8 lg:pb-16 lg:pt-10">
         {crumbs && <Breadcrumbs items={crumbs} />}
-        <div className="mt-6 max-w-3xl">
-          {eyebrow && <p className="eyebrow">{eyebrow}</p>}
-          <h1 className="mt-3 text-4xl font-semibold leading-tight sm:text-5xl">{title}</h1>
-          {subtitle && <p className="mt-5 text-lg leading-relaxed text-muted">{subtitle}</p>}
+        <div className="mt-8 max-w-3xl">
+          {eyebrow && <p className="label">{eyebrow}</p>}
+          <h1 className="mt-5 text-display">{title}</h1>
+          {subtitle && <p className="prose-narrow mt-6">{subtitle}</p>}
         </div>
         {children}
       </div>

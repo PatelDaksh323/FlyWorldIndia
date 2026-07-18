@@ -55,7 +55,7 @@
 @layer components {
   /* Buttons — one solid gold primary; everything else is quiet. */
   .btn {
-    @apply inline-flex select-none items-center justify-center gap-2 text-sm font-medium transition-colors duration-200 focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-night disabled:cursor-not-allowed disabled:opacity-60;
+    @apply inline-flex min-h-[44px] cursor-pointer select-none items-center justify-center gap-2 text-sm font-medium transition-colors duration-200 focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-night disabled:cursor-not-allowed disabled:opacity-60;
   }
   .btn-primary {
     @apply btn rounded-full bg-gold px-6 py-3 text-night hover:bg-gold/90;

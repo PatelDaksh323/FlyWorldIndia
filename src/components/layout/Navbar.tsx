@@ -42,7 +42,7 @@ export default function Navbar() {
           className={cn(
             "mx-auto flex items-center justify-between gap-4 px-5 transition-all duration-500 ease-expo lg:px-8",
             detached
-              ? "h-14 max-w-[1200px] rounded-full border border-white/10 bg-night/80 shadow-lift backdrop-blur-xl lg:px-6"
+              ? "nav-glass h-14 max-w-[1200px] rounded-full border lg:px-6"
               : "h-16 max-w-[1240px] border border-transparent"
           )}
         >
@@ -65,10 +65,7 @@ export default function Navbar() {
                 <NavLink
                   to={item.to}
                   className={({ isActive }) =>
-                    cn(
-                      "inline-flex items-center gap-1 whitespace-nowrap rounded-full px-3 py-2 text-sm font-medium text-muted transition-colors hover:text-ink",
-                      isActive && "text-ink"
-                    )
+                    cn("nav-link", isActive && "bg-white/[0.06] text-ink")
                   }
                 >
                   {item.label}

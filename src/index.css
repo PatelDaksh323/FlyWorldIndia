@@ -114,6 +114,56 @@
     @apply flex h-12 w-12 items-center justify-center rounded-2xl bg-gold-gradient text-[#241803] shadow-glow;
   }
 
+  /* Liquid glass — frosted, saturated, specular top edge + warm gold rim.
+     Self-contained (no overlay element) so it never covers nav content. */
+  .nav-glass {
+    background: linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.12) 0%,
+      rgba(255, 255, 255, 0.035) 46%,
+      rgba(232, 176, 75, 0.07) 100%
+    );
+    -webkit-backdrop-filter: blur(22px) saturate(180%);
+    backdrop-filter: blur(22px) saturate(180%);
+    border-color: rgba(255, 255, 255, 0.16);
+    box-shadow:
+      0 18px 50px -20px rgba(0, 0, 0, 0.8),          /* lift */
+      inset 0 1px 0 0 rgba(255, 255, 255, 0.30),      /* top specular edge */
+      inset 0 0 0 1px rgba(255, 255, 255, 0.04),      /* inner hairline */
+      inset 0 -14px 30px -18px rgba(232, 176, 75, 0.22); /* warm gold underglow */
+  }
+  /* Soft moving specular streak for the "liquid" feel (respectful of motion). */
+  .nav-glass::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    z-index: 0;
+    background: linear-gradient(
+      100deg,
+      transparent 0%,
+      rgba(255, 255, 255, 0.14) 12%,
+      transparent 26%
+    );
+    background-size: 250% 100%;
+    animation: nav-sheen 7s ease-in-out infinite;
+  }
+  .nav-glass > * { position: relative; z-index: 1; }
+
+  @keyframes nav-sheen {
+    0%, 100% { background-position: 140% 0; }
+    50% { background-position: -40% 0; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .nav-glass::after { animation: none; }
+  }
+
+  /* Nav link with a hover pill */
+  .nav-link {
+    @apply inline-flex items-center gap-1 whitespace-nowrap rounded-full px-3 py-2 text-sm font-medium text-muted transition-colors duration-200 hover:bg-white/[0.06] hover:text-ink;
+  }
+
   /* content above the grain layer */
   header, main, footer, .section { position: relative; z-index: 2; }
 }

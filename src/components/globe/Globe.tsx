@@ -26,7 +26,10 @@ export default function Globe() {
     const h = host.clientHeight || 640;
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(40, w / h, 0.1, 100);
-    camera.position.set(0, 0, 3.7);
+    // Resting distance sized so the Earth sits large but fully inside its
+    // square frame (between the two reference sizes); MIN_Z below is the
+    // closest zoom that still keeps the whole sphere visible (no clipping).
+    camera.position.set(0, 0, 3.2);
 
     let renderer: THREE.WebGLRenderer;
     try {
@@ -376,9 +379,13 @@ export default function Globe() {
         host.style.cursor = "grab";
       }
     };
+    // Closest zoom is clamped so the Earth never grows past the square frame
+    // and gets clipped. With fov 40°, the sphere (r=1) fits while z >= ~2.9.
+    const MIN_Z = 2.9;
+    const MAX_Z = 6;
     const onWheel = (e: WheelEvent) => {
       e.preventDefault();
-      camera.position.z = Math.max(1.6, Math.min(6, camera.position.z + e.deltaY * 0.0022));
+      camera.position.z = Math.max(MIN_Z, Math.min(MAX_Z, camera.position.z + e.deltaY * 0.0022));
       dirty = true;
     };
     window.addEventListener("pointermove", onMove);

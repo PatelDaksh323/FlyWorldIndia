@@ -46,11 +46,8 @@ export default function Navbar() {
               : "h-16 max-w-[1240px] border border-transparent"
           )}
         >
-          <Link to="/" className="flex shrink-0 items-center gap-2.5" aria-label={`${site.name} home`}>
-            <Logo className="h-8 w-8" />
-            <span className="whitespace-nowrap font-display text-lg font-semibold tracking-tight">
-              Flyworld<span className="text-gold"> India</span>
-            </span>
+          <Link to="/" className="flex shrink-0 items-center" aria-label={`${site.name} home`}>
+            <Logo className="h-9" />
           </Link>
 
           {/* Desktop nav */}

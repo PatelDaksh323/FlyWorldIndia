@@ -1,34 +1,46 @@
 import { cn } from "@/lib/cn";
 
-/** Inline SVG mark — a wireframe globe with a golden flight arc. */
+/**
+ * Flyworld wordmark — the blue rounded logo with the "FlyWorld" wordmark and a
+ * ™ mark, tagline rules removed, transparent around the blue tile.
+ *
+ * ⚠ This is a faithful SVG recreation from the shared logo image. For a
+ * pixel-perfect mark, drop the official PNG/SVG into src/assets and swap the
+ * <svg> below for an <img>.
+ */
 export default function Logo({ className }: { className?: string }) {
   return (
     <svg
-      viewBox="0 0 64 64"
-      className={cn("shrink-0", className)}
+      viewBox="0 0 236 72"
+      className={cn("block h-auto w-auto", className)}
       role="img"
-      aria-label="Flyworld India logo"
+      aria-label="FlyWorld"
     >
-      <circle cx="32" cy="32" r="18" fill="none" stroke="#E8B04B" strokeWidth="2.5" />
-      <ellipse
-        cx="32"
-        cy="32"
-        rx="7"
-        ry="18"
-        fill="none"
-        stroke="#E8B04B"
-        strokeWidth="1.5"
-        opacity="0.55"
-      />
-      <line x1="14" y1="32" x2="50" y2="32" stroke="#E8B04B" strokeWidth="1.5" opacity="0.55" />
-      <path
-        d="M18 40 Q32 14 46 24"
-        fill="none"
-        stroke="#FF8A5B"
-        strokeWidth="2.5"
-        strokeLinecap="round"
-      />
-      <circle cx="46" cy="24" r="3" fill="#FF8A5B" />
+      <rect x="0" y="0" width="236" height="72" rx="16" fill="#00A1E4" />
+      <text
+        x="20"
+        y="48"
+        fill="#FFFFFF"
+        fontFamily="'Fraunces', Georgia, 'Times New Roman', serif"
+        fontWeight="600"
+        fontSize="40"
+        letterSpacing="-0.5"
+      >
+        FlyWorld
+      </text>
+      {/* ™ */}
+      <circle cx="222" cy="20" r="11" fill="#FFFFFF" />
+      <text
+        x="222"
+        y="24"
+        textAnchor="middle"
+        fill="#00A1E4"
+        fontFamily="Arial, sans-serif"
+        fontWeight="700"
+        fontSize="11"
+      >
+        ™
+      </text>
     </svg>
   );
 }

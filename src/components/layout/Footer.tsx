@@ -12,11 +12,8 @@ export default function Footer() {
       <div className="container grid gap-10 py-14 md:grid-cols-2 lg:grid-cols-6">
         {/* Brand + contact */}
         <div className="lg:col-span-2">
-          <Link to="/" className="flex items-center gap-2.5">
-            <Logo className="h-9 w-9" />
-            <span className="font-display text-lg font-semibold">
-              Flyworld<span className="text-gold"> India</span>
-            </span>
+          <Link to="/" className="inline-flex items-center">
+            <Logo className="h-10" />
           </Link>
           <p className="mt-4 max-w-xs text-sm leading-relaxed text-muted">
             {site.tagline}. Honest guidance for study abroad, work permits,

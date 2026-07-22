@@ -34,3 +34,6 @@ yarn-error.log*
 
 # design-review screenshots (generated artifacts)
 screenshots/
+
+# generated source archives
+*.zip

@@ -146,6 +146,7 @@ export default function Globe() {
           gl_FragColor=vec4(glow, f*0.95); }`,
     });
     const atmo = new THREE.Mesh(new THREE.SphereGeometry(1.16, 64, 64), atmoMat);
+    atmo.visible = false; // no gold halo ring — Earth only (matches reference)
     parallax.add(atmo);
 
     // ---- lat/lon -> vec3 ----
